@@ -47,6 +47,12 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   subtotal = '0.00';
   total = '0.00';
   discount = '';
+  // get discount() {
+  //   return '€' + this.disc;
+  // }
+  // set discount(value: string) {
+  //   this.disc = value;
+  // }
 
   invoiceNo = 'EF123654';
   issuedOn = '22/03/2019';
@@ -71,10 +77,53 @@ export class InvoiceComponent implements OnInit, OnDestroy {
               private apiService: ApiService) { }
 
   ngOnInit() {
-
+    this.innerWidth = window.innerWidth;
+    this.showLabels = this.innerWidth > 1000;
   }
 
   ngOnDestroy() {
 
+  }
+
+  private requestInvoice() {
+
+  }
+
+  private removeRow(index: number) {
+    this.products.splice(index, 1);
+    this.updateTotals();
+  }
+
+  private addNewRow() {
+    this.products.push(new Invoice());
+  }
+
+  private calculateNet(product) {
+    if (product.vat === '') {
+      product.vat = this.vatOptions[0].value;
+    }
+    if (product.price[0] !== '€') {
+      product.price = '€' + product.price;
+    }
+    const price = +product.price.slice(1, product.price.length);
+    const priceWithoutVat = price - (price * (+product.vat / 100));
+    product.net = (+product.quantity * priceWithoutVat).toString();
+    this.updateTotals();
+  }
+
+  private updateTotals() {
+    let prevDisc = 0;
+    if (this.discount[0] !== '€') {
+      this.discount = '€' + this.discount;
+    }
+    if (this.discount[0] === '€') {
+      prevDisc = +this.discount.slice(1, this.discount.length);
+    }
+    this.subtotal = '0.00';
+    this.total = '0.00';
+    this.products.forEach(el => {
+      this.subtotal = (+this.subtotal + +el.net).toString();
+    });
+    this.total = (+this.subtotal - prevDisc).toString();
   }
 }

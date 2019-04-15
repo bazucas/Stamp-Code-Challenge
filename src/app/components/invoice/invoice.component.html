@@ -75,7 +75,79 @@
           </div>
         </ng-container>
         <hr>
-
+        <form class="form-inline ui-fluid" (ngSubmit)="requestInvoice()" #invoiceForm="ngForm" *ngFor="let product of products; let i = index;">
+          <div class="for-content" >
+            <div class="form p-col-10 p-md-6 p-lg-2">
+              <div class="box">
+                <i class="delete-button fas fa-minus-circle" (click)="removeRow(i)" *ngIf="i !== 0 || products.length > 1"></i>
+                <label *ngIf="!showLabels">Code</label>
+                <div class="ui-inputgroup ">
+                  <input type="text" pInputText placeholder="Code" pattern="^[a-zA-Z0-9]*$" [(ngModel)]="product.code" name="code">
+                </div>
+              </div>
+            </div>
+            <div class="form p-col-10 p-md-6 p-lg-4">
+              <div class="box">
+                <label *ngIf="!showLabels">Description</label>
+                <div class="ui-inputgroup">
+                  <input type="text" pInputText placeholder="Description" required minlength="5"
+                         [(ngModel)]="product.description" name="description">
+                </div>
+              </div>
+            </div>
+            <div class="form p-col-10 p-md-6 p-lg-1">
+              <div class="box">
+                <label *ngIf="!showLabels">Qty.</label>
+                <div class="ui-inputgroup">
+                  <input type="text" pInputText required minlength="1" pattern="^[0-9]*$"
+                         [(ngModel)]="product.quantity" name="quantity" (blur)="calculateNet(product)">
+                </div>
+              </div>
+            </div>
+            <div class="form p-col-10 p-md-6 p-lg-2">
+              <div class="box">
+                <label *ngIf="!showLabels">Price</label>
+                <div class="ui-inputgroup">
+                  <input class="right-set" placeholder="€0.00" type="text" pInputText required pattern="^[€]?\d+([.]\d+)?$"
+                         [(ngModel)]="product.price" name="price" (blur)="calculateNet(product)">
+                </div>
+              </div>
+            </div>
+            <div class="form p-col-10 p-md-6 p-lg-1">
+              <div class="box">
+                <label *ngIf="!showLabels">VAT</label>
+                <div class="ui-inputgroup" [ngStyle]="{'position': 'relative', 'z-index': (1000 - i).toString()}">
+                  <p-dropdown [options]="vatOptions" [(ngModel)]="product.vat" [ngModelOptions]="{standalone: true}"
+                              required [style]="{'width':'75px'}" (onChange)="calculateNet(product)"></p-dropdown>
+                </div>
+              </div>
+            </div>
+            <div class="form p-col-10 p-md-6 p-lg-2">
+              <div class="box right">
+                <label *ngIf="!showLabels">Net</label>
+                <p>{{product.net | currency:'EUR'}}</p>
+              </div>
+            </div>
+            <div style="width: 100%" *ngIf="i === products.length - 1">
+              <a class="add-button" (click)="addNewRow()"><span>+</span></a>
+            </div>
+          </div>
+        </form>
+        <hr>
+      </div>
+      <div class="resume">
+        <div class="p-grid p-justify-end">
+          <div class="res-box p-col-8 p-md-6 p-lg-4">
+            <div class="box">
+              <p><b>Subtotal</b><span>{{subtotal | currency:'EUR'}}</span></p>
+              <p><b>Net discount</b><span>
+                <input class="right-set fixin" placeholder="€0.00" type="text" pInputText pattern="^[€]?\d+([.]\d+)?$" [(ngModel)]="discount" (blur)="updateTotals()">
+              </span></p>
+              <p class="total"><b>Total</b><span>{{total | currency:'EUR'}}</span></p>
+              <button pButton type="button" class="ui-button-raised ui-button-rounded" label="ROUND CENTS"></button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="ribbon box">

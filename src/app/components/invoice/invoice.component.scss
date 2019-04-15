@@ -6,7 +6,7 @@ $red-hover: #e91c5c;
 $berylGreen: #D5E7BD;
 $fontFamily: 'Montserrat', sans-serif;
 
-body {
+body{
   font-family: $fontFamily;
 }
 
@@ -31,34 +31,189 @@ body {
   margin-top: 50px;
   .inner-box {
     padding: 0;
-    box-shadow: 5px 5px 30px -5px rgba(0, 0, 0, 0.56);
+    box-shadow: 5px 5px 30px -5px rgba(0,0,0,0.56);
   }
+
   .ribbon {
     border-radius: 0;
     margin-top: 205px;
-    background: rgb(252, 203, 43);
-    background: linear-gradient(90deg, rgba(252, 203, 43, 1) 18%, rgba(8, 117, 216, 1) 90%);
+    background: rgb(252,203,43);
+    background: linear-gradient(90deg, rgba(252,203,43,1) 18%, rgba(8,117,216,1) 90%);
   }
+
   .head-text {
     font-size: xx-large;
     font-weight: bold;
     color: $blue;
   }
+
   .header {
-    p {
+    p{
       padding: 2px 0;
     }
   }
-  .invoice-number p {
+
+  .invoice-number  p {
     font-size: small;
     margin: 0;
   }
+
   .right {
     padding-right: 2.5vw;
     text-align: right;
   }
+
   .left {
     padding-left: 2.5vw;
     text-align: left;
   }
+
+  .form-container {
+    margin-top: 80px;
+    .form {
+      margin: auto;
+      padding-right: 30px;
+      font-size: small;
+      .include {
+        font-size: smaller;
+        opacity: 0.5;
+      }
+      p {
+        margin: 0;
+      }
+      .left {
+        margin-left: 0.5vw;
+      }
+      .right {
+        padding-right: 1.5vw;
+        margin-left: 50px;
+      }
+    }
+
+    .delete-button {
+      position: absolute;
+      z-index: 1;
+      padding-top: 6px;
+      left: 9vw;
+      transform: scale(1.5);
+      color: $red;
+      &:hover{
+        cursor: pointer;
+        color: $red-hover;
+      }
+    }
+
+    .add-button {
+      position: absolute;
+      z-index: 1;
+      right: 11.5vw;
+      transform: scale(2);
+      color: white;
+      padding-left: 5px;
+      margin: -6px;
+      width:15px;
+      height:15px;
+      line-height:15px;
+      border-radius: 50%;
+      text-align:center;
+      text-decoration:none;
+      background: $blue;
+      box-shadow: 0 0 3px gray;
+      font-size:20px;
+      font-weight:bold;
+      &:hover{
+        cursor: pointer;
+        background-color: $blue-hover;
+      }
+      span {
+        margin-left: -5px;
+      }
+    }
+
+    .ui-inputgroup {
+      input {
+        height: 25px;
+      }
+    }
+
+    hr {
+      width: 92%;
+      margin-top: 0;
+      margin-bottom: 0;
+      height: 1px;
+      border-top: 1px solid #ccc;
+    }
+  }
+
+  .left{
+    text-align: left;
+  }
+
+  .right{
+    text-align: right;
+  }
+
+  .form-inline {
+    width: 100%;
+    margin-left: 3vw;
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    .for-content {
+      display: contents;
+      label {
+        font-weight: bold;
+      }
+    }
+  }
+
+  .right-set {
+    font-family: $fontFamily;
+    text-align: right;
+    font-size: small;
+  }
+
+  .fixin {
+    float: right;
+    margin-right: -6px;
+    width: 80%;
+  }
+
+  p-dropdown {
+    transform: scale(0.8);
+    margin-left: -7px;
+  }
+
+  .resume {
+    font-size: small;
+    margin-right: 1vw;
+    margin-top: 20px;
+    span {
+      float: right;
+    }
+    p {
+      padding: 10px 10px
+    }
+    .res-box {
+      .total {
+        background-color: $berylGreen;
+      }
+      button {
+        transform: scale(0.7);
+        background-color: white;
+        color: $blue;
+        border: 2px solid $blue;
+        margin-left: -20px;
+        &:hover{
+          background: $blue;
+          color: white;
+        }
+      }
+      .box {
+        margin-right: 1vw;
+        height: 30px;
+      }
+    }
+  }
 }
+
