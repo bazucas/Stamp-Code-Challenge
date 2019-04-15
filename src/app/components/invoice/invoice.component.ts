@@ -1,12 +1,11 @@
 import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import {FormBuilder} from '@angular/forms';
 import {Customer} from '../../models/customer';
 import {Company} from '../../models/company';
 import {ApiService} from '../../services/api.service';
 import {Invoice} from '../../models/invoice';
 import {Subscription} from 'rxjs';
-import {ApiRequest} from '../../models/apiRequest';
+import {ApiRequest, Item} from '../../models/apiRequest';
 import {ApiResponse} from '../../models/apiResponse';
 
 @Component({
@@ -54,7 +53,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
 
   invoiceNo = 'EF123654';
   issuedOn = '22/03/2019';
-  invoiceRes = true;
+  invoiceRes = false;
 
   customer: Customer = {
     country: 'Portugal',
@@ -85,9 +84,13 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   }
 
   private requestInvoice() {
-    const req: ApiRequest = null;
+    const req: ApiRequest = this.createRequest();
     this.apiServiceSubs = this.apiService.setNewObject<ApiRequest, ApiResponse>('invoices', req).subscribe(
-      res => {},
+      res => {
+        this.invoiceRes = true;
+        this.invoiceNo = res.invoiceNumber;
+        this.issuedOn = res.issuedOn;
+        },
       error => {},
       () => {}
     );
@@ -118,5 +121,23 @@ export class InvoiceComponent implements OnInit, OnDestroy {
       this.subtotal = (+this.subtotal + +el.net).toString();
     });
     this.total = (+this.subtotal - +this.discount).toString();
+  }
+
+  private createRequest(): ApiRequest {
+    const itemCollection: Item[] = [];
+    this.products.forEach(prod => {
+      const item: Item = {
+        code: prod.code,
+        description: prod.description,
+        quantity: +prod.quantity,
+        unitPriceWithVat: +prod.price,
+        vatRate: +prod.vat
+      };
+      itemCollection.push(item);
+    });
+    return {
+      discount: +this.discount,
+      items: itemCollection
+    };
   }
 }
