@@ -108,8 +108,8 @@
               <div class="box">
                 <label *ngIf="!showLabels">Price</label>
                 <div class="ui-inputgroup">
-                  <input class="right-set" placeholder="€0.00" type="text" pInputText required pattern="^[€]?\d+([.]\d+)?$"
-                         [(ngModel)]="product.price" name="price" (blur)="calculateNet(product)">
+                  <input currencyMask class="right-set" placeholder="€0.00" type="text" pInputText required pattern="^[€]?\d+([.]\d+)?$"
+                         [options]="{ prefix: '€', thousands: ',', decimal: '.' }" [(ngModel)]="product.price" name="price" (blur)="calculateNet(product)">
                 </div>
               </div>
             </div>
@@ -141,10 +141,11 @@
             <div class="box">
               <p><b>Subtotal</b><span>{{subtotal | currency:'EUR'}}</span></p>
               <p><b>Net discount</b><span>
-                <input class="right-set fixin" placeholder="€0.00" type="text" pInputText pattern="^[€]?\d+([.]\d+)?$" [(ngModel)]="discount" (blur)="updateTotals()">
+                <input currencyMask class="right-set fixin" placeholder="€0.00" type="text" pInputText pattern="^[€]?\d+([.]\d+)?$"
+                       [options]="{ prefix: '€', thousands: ',', decimal: '.' }" [(ngModel)]="discount">
               </span></p>
               <p class="total"><b>Total</b><span>{{total | currency:'EUR'}}</span></p>
-              <button pButton type="button" class="ui-button-raised ui-button-rounded" label="ROUND CENTS"></button>
+              <button pButton type="button" class="ui-button-raised ui-button-rounded" label="ROUND CENTS" (click)="updateTotals()"></button>
             </div>
           </div>
         </div>

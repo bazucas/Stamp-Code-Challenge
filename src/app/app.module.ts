@@ -10,6 +10,7 @@ import {ButtonModule} from 'primeng/button';
 import {DropdownModule, InputTextModule} from 'primeng/primeng';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { InvoiceComponent } from './components/invoice/invoice.component';
+import {CurrencyMaskModule} from 'ng2-currency-mask';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { InvoiceComponent } from './components/invoice/invoice.component';
     ButtonModule,
     InputTextModule,
     ReactiveFormsModule,
-    DropdownModule
+    DropdownModule,
+    CurrencyMaskModule
   ],
   providers: [],
   bootstrap: [AppComponent]

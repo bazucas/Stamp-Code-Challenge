@@ -102,28 +102,17 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     if (product.vat === '') {
       product.vat = this.vatOptions[0].value;
     }
-    if (product.price[0] !== '€') {
-      product.price = '€' + product.price;
-    }
-    const price = +product.price.slice(1, product.price.length);
-    const priceWithoutVat = price - (price * (+product.vat / 100));
+    const priceWithoutVat = product.price - (product.price * (+product.vat / 100));
     product.net = (+product.quantity * priceWithoutVat).toString();
     this.updateTotals();
   }
 
   private updateTotals() {
-    let prevDisc = 0;
-    if (this.discount[0] !== '€') {
-      this.discount = '€' + this.discount;
-    }
-    if (this.discount[0] === '€') {
-      prevDisc = +this.discount.slice(1, this.discount.length);
-    }
     this.subtotal = '0.00';
     this.total = '0.00';
     this.products.forEach(el => {
       this.subtotal = (+this.subtotal + +el.net).toString();
     });
-    this.total = (+this.subtotal - prevDisc).toString();
+    this.total = (+this.subtotal - +this.discount).toString();
   }
 }
