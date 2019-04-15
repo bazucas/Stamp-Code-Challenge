@@ -5,6 +5,9 @@ import {Customer} from '../../models/customer';
 import {Company} from '../../models/company';
 import {ApiService} from '../../services/api.service';
 import {Invoice} from '../../models/invoice';
+import {Subscription} from 'rxjs';
+import {ApiRequest} from '../../models/apiRequest';
+import {ApiResponse} from '../../models/apiResponse';
 
 @Component({
   selector: 'app-invoice',
@@ -33,6 +36,7 @@ import {Invoice} from '../../models/invoice';
 })
 export class InvoiceComponent implements OnInit, OnDestroy {
 
+  apiServiceSubs: Subscription;
   innerWidth = 0;
   showLabels = true;
   vatOptions: {label: string, value: string}[] = [
@@ -47,12 +51,6 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   subtotal = '0.00';
   total = '0.00';
   discount = '';
-  // get discount() {
-  //   return '€' + this.disc;
-  // }
-  // set discount(value: string) {
-  //   this.disc = value;
-  // }
 
   invoiceNo = 'EF123654';
   issuedOn = '22/03/2019';
@@ -73,8 +71,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     address: 'My own street, 10'
   };
 
-  constructor(private formBuilder: FormBuilder,
-              private apiService: ApiService) { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
     this.innerWidth = window.innerWidth;
@@ -82,11 +79,18 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
+    if (this.apiServiceSubs) {
+      this.apiServiceSubs.unsubscribe();
+    }
   }
 
   private requestInvoice() {
-
+    const req: ApiRequest = null;
+    this.apiServiceSubs = this.apiService.setNewObject<ApiRequest, ApiResponse>('invoices', req).subscribe(
+      res => {},
+      error => {},
+      () => {}
+    );
   }
 
   private removeRow(index: number) {

@@ -19,8 +19,8 @@ export class ApiService {
     return this.http.get(this.statics.endpoint + '/' + action + '/' + id, {}) as Observable<T> ;
   }
 
-  setNewObject<T>(action: string, req: T): Observable<T> {
-    return this.http.post(this.statics.endpoint + '/' + action + '/', req) as Observable<T> ;
+  setNewObject<T, U>(action: string, req: T): Observable<U> {
+    return this.http.post(this.statics.endpoint + '/' + action + '/', req) as Observable<U> ;
   }
 
   updateProperty<T>(action: string, id: number, req: T): Observable<T> {
