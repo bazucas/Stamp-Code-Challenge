@@ -9,10 +9,12 @@ import { AppComponent } from './app.component';
 import {ButtonModule} from 'primeng/button';
 import {DropdownModule, InputTextModule} from 'primeng/primeng';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { InvoiceComponent } from './components/invoice/invoice.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    InvoiceComponent
   ],
   imports: [
     BrowserModule,
