@@ -1,28 +1,162 @@
 # StampCodeChallengeApp
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.8.
+Frontend developer code challenge.
 
-## Development server
+## Demo
+Coming soon...
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+[http://stamp.luisinacio.co.uk](http://stamp.luisinacio.co.uk/)
 
-## Code scaffolding
+## Requirements
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Front-end developer assignment
+The assignment is to rebuild the page that our merchants use to create and issue new
+invoices. This is what it looks like:
 
-## Build
+![alt text](./src/assets/screen/screen.png)
+The merchant should be able to add and remove products. Each product has a few
+properties:
+* product code
+alphanumeric, optional
+* description
+at least 5 characters long, ignoring repeated whitespaces
+* quantity
+at least 1
+* price in Euros
+including the VAT, must be positive
+* VAT rate in Italy different products can have different VAT rates (22, 10, 5 and 4%). 
+* For this assignment
+it’s fine to just consider 22% VAT, forget about the dropdown (unless you have time left 🙂).
+* Please show validation error messages for each field where needed. All fields are
+required unless specified otherwise.
+* Inputs containing prices should be automatically formatted in this form: €149.99 .
+Either while typing (with some kind of mask) or on blur.
+* The last column of the table (“Net”) should be automatically updated and should display
+the final price without VAT , taking into account the original price and the quantity.
+* Finally the merchant can specify a discount – a positive amount – that will be deducted
+from the subtotal. 
+* The “Round cents” button allows the merchant to quickly remove the
+cents from the subtotal applying the appropriate discount.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+###Form submission
 
-## Running unit tests
+To create an invoice you will have to make a POST to
+https://**************.azurewebsites.net/api/invoices.
+Request body:
+* Use Content-Type = application/json.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Request Body
 
-## Running end-to-end tests
+```bash
+  {
+    "discount": 10,
+    "items" :
+    [
+      {
+        "code": "1234CD" ,
+        "description": "Gucci white leather bag" ,
+        "quantity": 2 ,
+        "unitPriceWithVat": 1299.99 ,
+        "vatRate": 22.0
+      },
+      {
+        "code": "1234AB" ,
+        "description": "D&G original socks" ,
+        "quantity": 4 ,
+        "unitPriceWithVat": 59.99 ,
+        "vatRate": 22.0
+      }
+    ]
+  }
+```
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+### Response Body
 
-## Further help
+```bash
+  {
+    "discount": 10,
+    "invoiceNumber": "0000001" ,
+    "issuedOn": "2019-01-22T15:23:55.9409095+00:00",
+    "items" :
+    [
+      {
+        "code": "1234CD" ,
+        "description": "Gucci white leather bag" ,
+        "quantity": 2 ,
+        "unitPriceWithVat": 1299.99 ,
+        "vatRate": 22.0
+      },
+      {
+        "code": "1234AB" ,
+        "description": "D&G original socks" ,
+        "quantity": 4 ,
+        "unitPriceWithVat": 59.99 ,
+        "vatRate": 22.0
+      }
+    ]
+  }
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
-# Stamp-Code-Challenge
+### Errors:
+
+If the data posted does not satisfy all the business rules, the API will return a 400 Bad
+Request with the following body:
+
+```bash
+  {
+    "message": "Discount must be positive"
+  }
+```
+
+###After submission
+
+Once you receive a successful response from the API, all the inputs should become
+read-only or disabled and you shouldn’t be able to add or remove items.
+Please also show the invoiceNumber received and the issuedOn properties below
+the “Invoice” title:
+
+![alt text](./src/assets/screen/invoice.png)
+
+###Rules
+
+* The app should be built using Angular and Typescript
+* It should be bundled using Webpack
+* The page should be usable on mobile
+* Implement tests
+* Make use of a CSS preprocessor if needed
+* Usage of open source libraries if needed is encouraged
+* Please provide a README with instructions on how to start up your project
+* Upload the project to an online repository that we can access (on Github preferably)
+
+
+## Running application
+
+Git clone the repository and install all the dependencies
+
+```bash
+git clone git@github.com:bazucas/Stamp-Code-Challenge.git
+npm install
+``` 
+Open another terminal windows and run the Angular application
+
+```bash
+npm start
+```
+
+## Architecture
+
+### Structure
+
+* Simple flat folder structure with a single main module, without any lazy children modules, or shared modules.
+* SCSS pre-processors.
+* Mobile first concerns. 
+* API post verb method calls.
+* Generic API http verb methods.
+
+### Boilerplate code used
+
+* PrimeNg
+* PrimeFlex
+
+## License
+[MIT](https://choosealicense.com/licenses/mit/)
