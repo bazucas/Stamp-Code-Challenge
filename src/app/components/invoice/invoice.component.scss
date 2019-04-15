@@ -1,0 +1,64 @@
+$yellow: #FCCD28;
+$blue: #0075D7;
+$blue-hover: #3245E9;
+$red: #DA3740;
+$red-hover: #e91c5c;
+$berylGreen: #D5E7BD;
+$fontFamily: 'Montserrat', sans-serif;
+
+body {
+  font-family: $fontFamily;
+}
+
+.box {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  border-radius: 4px;
+}
+
+.top-flag {
+  text-align: center;
+  color: white;
+  background-color: $yellow;
+}
+
+.bottom-button {
+  text-align: center;
+  margin: 40px;
+}
+
+.invoice {
+  margin-top: 50px;
+  .inner-box {
+    padding: 0;
+    box-shadow: 5px 5px 30px -5px rgba(0, 0, 0, 0.56);
+  }
+  .ribbon {
+    border-radius: 0;
+    margin-top: 205px;
+    background: rgb(252, 203, 43);
+    background: linear-gradient(90deg, rgba(252, 203, 43, 1) 18%, rgba(8, 117, 216, 1) 90%);
+  }
+  .head-text {
+    font-size: xx-large;
+    font-weight: bold;
+    color: $blue;
+  }
+  .header {
+    p {
+      padding: 2px 0;
+    }
+  }
+  .invoice-number p {
+    font-size: small;
+    margin: 0;
+  }
+  .right {
+    padding-right: 2.5vw;
+    text-align: right;
+  }
+  .left {
+    padding-left: 2.5vw;
+    text-align: left;
+  }
+}

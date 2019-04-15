@@ -1,0 +1,94 @@
+<div class="top-flag">
+  <div class="p-grid">
+    <div class="p-col">
+      <div class="box">Create new invoice</div>
+    </div>
+  </div>
+</div>
+
+<div class="invoice p-grid">
+  <div class="inner-box p-col-10 p-offset-1">
+    <div class="box">
+      <div class="p-grid p-justify-end">
+        <div class="p-col-6 p-md-3 p-lg-3">
+          <div class="head-text right box"><span>Invoice</span></div>
+        </div>
+      </div>
+
+      <div class="header">
+        <div class="p-grid p-justify-end">
+          <div class="p-col-12 p-md-3 p-lg-3" [ngStyle]="{'height': invoiceRes ? '' : '65px'}">
+            <div class="invoice-number right box" *ngIf="invoiceRes">
+              <p><b>Invoice number:</b> {{invoiceNo}}</p>
+              <p><b>Issued on:</b> {{issuedOn}}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="p-grid">
+          <div class="p-col-4">
+            <div class="box">
+              <div class="invoice-number left box">
+                <p><b>{{customer.name}}</b></p>
+                <p>{{customer.date}}</p>
+                <p>Passport: {{customer.passport}}</p>
+                <p>Issuing country: {{customer.country}}</p>
+                <p>Residency country: {{customer.residency}}</p>
+              </div>
+            </div>
+          </div>
+          <div class="p-col-4 p-offset-4">
+            <div class="box">
+              <div class="invoice-number right box">
+                <p><b>{{company.name}}</b></p>
+                <p>{{company.code}}</p>
+                <p>{{company.address}}</p>
+                <p>{{company.zip}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-container p-grid">
+        <ng-container *ngIf="showLabels">
+          <div class="form p-col-12 p-md-6 p-lg-2">
+            <div class="box left"><p><b>Code</b></p></div>
+          </div>
+          <div class="form p-col-12 p-md-6 p-lg-4">
+            <div class="box left"><p><b>Description</b></p></div>
+          </div>
+          <div class="form p-col-12 p-md-6 p-lg-1">
+            <div class="box right"><p><b>Qty.</b></p></div>
+          </div>
+          <div class="form p-col-12 p-md-6 p-lg-2">
+            <div class="box right">
+              <p><b>Price</b></p>
+              <span class="include">including VAT</span>
+            </div>
+          </div>
+          <div class="form p-col-12 p-md-6 p-lg-1">
+            <div class="box right"><p><b>VAT</b></p></div>
+          </div>
+          <div class="form p-col-12 p-md-6 p-lg-2">
+            <div class="box right"><p><b>Net</b></p></div>
+          </div>
+        </ng-container>
+        <hr>
+
+      </div>
+    </div>
+    <div class="ribbon box">
+    </div>
+  </div>
+</div>
+
+<div class="bottom-button">
+  <div class="p-grid">
+    <div class="p-col">
+      <div class="box">
+        <button pButton type="button" class="ui-button-raised ui-button-rounded" label="CREATE INVOICE"></button>
+      </div>
+    </div>
+  </div>
+</div>
