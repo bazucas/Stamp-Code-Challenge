@@ -38,7 +38,7 @@ from the subtotal.
 * The “Round cents” button allows the merchant to quickly remove the
 cents from the subtotal applying the appropriate discount.
 
-###Form submission
+### Form submission
 
 To create an invoice you will have to make a POST to
 https://**************.azurewebsites.net/api/invoices.
@@ -108,7 +108,7 @@ Request with the following body:
   }
 ```
 
-###After submission
+### After submission
 
 Once you receive a successful response from the API, all the inputs should become
 read-only or disabled and you shouldn’t be able to add or remove items.
@@ -117,7 +117,7 @@ the “Invoice” title:
 
 ![alt text](./src/assets/screen/invoice.png)
 
-###Rules
+### Rules
 
 * The app should be built using Angular and Typescript
 * It should be bundled using Webpack
