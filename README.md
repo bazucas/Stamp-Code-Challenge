@@ -110,34 +110,36 @@ Request with the following body:
 
 ### After submission
 
-Once you receive a successful response from the API, all the inputs should become
+Once you receive a successful response from the API, all the inputs should become.
 read-only or disabled and you shouldn’t be able to add or remove items.
-Please also show the invoiceNumber received and the issuedOn properties below
+Please also show the invoiceNumber received and the issuedOn properties below.
 the “Invoice” title:
 
 ![alt text](./src/assets/screen/invoice.png)
 
 ### Rules
 
-* The app should be built using Angular and Typescript
-* It should be bundled using Webpack
-* The page should be usable on mobile
-* Implement tests
-* Make use of a CSS preprocessor if needed
-* Usage of open source libraries if needed is encouraged
-* Please provide a README with instructions on how to start up your project
-* Upload the project to an online repository that we can access (on Github preferably)
+* The app should be built using Angular and Typescript.
+* It should be bundled using Webpack.
+* The page should be usable on mobile.
+* Implement tests.
+* Make use of a CSS preprocessor if needed.
+* Usage of open source libraries if needed is encouraged.
+* Please provide a README with instructions on how to start up your project.
+* Upload the project to an online repository that we can access (on Github preferably).
 
 
 ## Running application
 
-Git clone the repository and install all the dependencies
+Git clone the repository and install all the dependencies.
 
 ```bash
 git clone git@github.com:bazucas/Stamp-Code-Challenge.git
 npm install
 ``` 
-Open another terminal windows and run the Angular application
+Update the API path, on /src/static/paths.json
+
+Open another terminal windows and run the Angular application.
 
 ```bash
 npm start
