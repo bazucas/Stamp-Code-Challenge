@@ -115,12 +115,22 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   }
 
   private updateTotals() {
+    this.resetSubtotals();
+    this.total = (+this.subtotal - +this.discount).toString();
+  }
+
+  private roundCents() {
+    this.resetSubtotals();
+    const subtotalWithoutCents = Math.floor(+this.subtotal);
+    this.total = (subtotalWithoutCents - +this.discount).toString();
+  }
+
+  private resetSubtotals() {
     this.subtotal = '0.00';
     this.total = '0.00';
     this.products.forEach(el => {
       this.subtotal = (+this.subtotal + +el.net).toString();
     });
-    this.total = (+this.subtotal - +this.discount).toString();
   }
 
   private createRequest(): ApiRequest {

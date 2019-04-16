@@ -145,7 +145,7 @@
                        [options]="{ prefix: '€', thousands: ',', decimal: '.' }" [(ngModel)]="discount">
               </span></p>
               <p class="total"><b>Total</b><span>{{total | currency:'EUR'}}</span></p>
-              <button pButton type="button" class="ui-button-raised ui-button-rounded" label="ROUND CENTS" (click)="updateTotals()"></button>
+              <button pButton type="button" class="ui-button-raised ui-button-rounded" label="ROUND CENTS" (click)="roundCents()"></button>
             </div>
           </div>
         </div>
