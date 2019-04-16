@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Customer} from '../../models/customer';
 import {Company} from '../../models/company';
@@ -35,27 +35,33 @@ import {ApiResponse} from '../../models/apiResponse';
 })
 export class InvoiceComponent implements OnInit, OnDestroy {
 
-  apiServiceSubs: Subscription;
-  innerWidth = 0;
-  showLabels = true;
-  vatOptions: {label: string, value: string}[] = [
+  @ViewChild('code') codeInputRef;
+  @ViewChild('description') descriptionInputRef;
+  @ViewChild('quantity') quantityInputRef;
+  @ViewChild('price') priceInputRef;
+  @ViewChild('disc') discountInputRef;
+
+  private isFormValid = false;
+  private apiServiceSubs: Subscription;
+  private innerWidth = 0;
+  private showLabels = true;
+  private readonly vatOptions: {label: string, value: string}[] = [
     {label: '22%', value: '22'},
     {label: '10%', value: '10'},
     {label: '5%', value: '5'},
     {label: '4%', value: '4'}
   ];
 
-  products: Invoice[] = [new Invoice()];
+  private products: Invoice[] = [new Invoice()];
+  private subtotal = '0.00';
+  private total = '0.00';
+  private discount = '';
 
-  subtotal = '0.00';
-  total = '0.00';
-  discount = '';
+  private invoiceNo = 'EF123654';
+  private issuedOn = '22/03/2019';
+  private invoiceRes = false;
 
-  invoiceNo = 'EF123654';
-  issuedOn = '22/03/2019';
-  invoiceRes = false;
-
-  customer: Customer = {
+  private readonly customer: Customer = {
     country: 'Portugal',
     date: '22/06/1984',
     name: 'Luis Inacio',
@@ -63,7 +69,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     residency: 'Portugal'
   };
 
-  company: Company = {
+  private readonly company: Company = {
     zip: '2790-075 Queluz - PT',
     name: 'Fit4U Ltd.',
     code: 'CD32165488',
@@ -117,12 +123,14 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   private updateTotals() {
     this.resetSubtotals();
     this.total = (+this.subtotal - +this.discount).toString();
+    this.validateForm();
   }
 
   private roundCents() {
     this.resetSubtotals();
     const subtotalWithoutCents = Math.floor(+this.subtotal);
     this.total = (subtotalWithoutCents - +this.discount).toString();
+    this.validateForm();
   }
 
   private resetSubtotals() {
@@ -149,5 +157,23 @@ export class InvoiceComponent implements OnInit, OnDestroy {
       discount: +this.discount,
       items: itemCollection
     };
+  }
+
+  private validateForm() {
+    this.isFormValid = false;
+    console.log(this.codeInputRef.control.status);
+    console.log(this.descriptionInputRef.control.status);
+    console.log(this.quantityInputRef.control.status);
+    console.log(this.priceInputRef.control.status);
+    console.log(this.discountInputRef.control.status);
+    try {
+      this.isFormValid = this.codeInputRef.control.status &&
+        this.descriptionInputRef.control.status &&
+        this.quantityInputRef.control.status &&
+        this.priceInputRef.control.status &&
+        this.discountInputRef.control.status;
+    } catch (e) {
+      console.log(e.message);
+    }
   }
 }

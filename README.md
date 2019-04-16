@@ -152,6 +152,8 @@ npm start
 * Simple flat folder structure with a single main module, without any lazy children modules, or shared modules.
 * SCSS pre-processors.
 * Mobile first concerns. 
+* Template forms.
+* Template form directive validation.
 * API post verb method calls.
 * Generic API http verb methods.
 

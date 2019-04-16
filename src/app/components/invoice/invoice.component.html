@@ -49,7 +49,6 @@
           </div>
         </div>
       </div>
-
       <div class="form-container p-grid">
         <ng-container *ngIf="showLabels">
           <div class="form p-col-12 p-md-6 p-lg-2">
@@ -75,42 +74,46 @@
           </div>
         </ng-container>
         <hr>
-        <form class="form-inline ui-fluid" (ngSubmit)="requestInvoice()" #invoiceForm="ngForm" *ngFor="let product of products; let i = index;">
+        <form class="form-inline ui-fluid" (ngSubmit)="requestInvoice()" *ngFor="let product of products; let i = index;">
           <div class="for-content" >
             <div class="form p-col-10 p-md-6 p-lg-2">
               <div class="box">
                 <i class="delete-button fas fa-minus-circle" (click)="removeRow(i)" *ngIf="i !== 0 || products.length > 1"></i>
                 <label *ngIf="!showLabels">Code</label>
                 <div class="ui-inputgroup ">
-                  <input type="text" pInputText placeholder="Code" pattern="^[a-zA-Z0-9]*$" [(ngModel)]="product.code" name="code">
+                  <input type="text" pInputText placeholder="Code" [(ngModel)]="product.code" codevalidator id="code" name="code" #code="ngModel">
                 </div>
+                <p class="input-error" *ngIf="code.errors?.codevalidator">Alphanumeric only</p>
               </div>
             </div>
             <div class="form p-col-10 p-md-6 p-lg-4">
               <div class="box">
                 <label *ngIf="!showLabels">Description</label>
                 <div class="ui-inputgroup">
-                  <input type="text" pInputText placeholder="Description" required minlength="5"
-                         [(ngModel)]="product.description" name="description">
+                  <input type="text" pInputText placeholder="Description" [(ngModel)]="product.description" descriptionvalidator
+                         id="description" name="description" #description="ngModel">
                 </div>
+                <p class="input-error" *ngIf="description.errors?.descriptionvalidator">More than 5 chars</p>
               </div>
             </div>
             <div class="form p-col-10 p-md-6 p-lg-1">
               <div class="box">
                 <label *ngIf="!showLabels">Qty.</label>
                 <div class="ui-inputgroup">
-                  <input type="text" pInputText required minlength="1" pattern="^[0-9]*$"
-                         [(ngModel)]="product.quantity" name="quantity" (blur)="calculateNet(product)">
+                  <input type="number" class="center-set" pInputText placeholder="1" [(ngModel)]="product.quantity" positivedecimalvalidator
+                         id="quantity" name="quantity" #quantity="ngModel" (blur)="calculateNet(product)">
                 </div>
+                <p class="input-error" *ngIf="quantity.errors?.positivedecimalvalidator">Positive only</p>
               </div>
             </div>
             <div class="form p-col-10 p-md-6 p-lg-2">
               <div class="box">
                 <label *ngIf="!showLabels">Price</label>
                 <div class="ui-inputgroup">
-                  <input currencyMask class="right-set" placeholder="€0.00" type="text" pInputText required pattern="^[€]?\d+([.]\d+)?$"
-                         [options]="{ prefix: '€', thousands: ',', decimal: '.' }" [(ngModel)]="product.price" name="price" (blur)="calculateNet(product)">
+                  <input currencyMask class="right-set" placeholder="€0.00" type="text" pInputText [options]="{ prefix: '€', thousands: ',', decimal: '.' }"
+                          [(ngModel)]="product.price" positivedecimalvalidator id="price" name="price" #price="ngModel" (blur)="calculateNet(product)">
                 </div>
+                <p class="input-error" *ngIf="price.errors?.positivedecimalvalidator">Positive only</p>
               </div>
             </div>
             <div class="form p-col-10 p-md-6 p-lg-1">
@@ -141,9 +144,10 @@
             <div class="box">
               <p><b>Subtotal</b><span>{{subtotal | currency:'EUR'}}</span></p>
               <p><b>Net discount</b><span>
-                <input currencyMask class="right-set fixin" placeholder="€0.00" type="text" pInputText pattern="^[€]?\d+([.]\d+)?$"
-                       [options]="{ prefix: '€', thousands: ',', decimal: '.' }" [(ngModel)]="discount">
+                <input currencyMask class="right-set fixin" placeholder="€0.00" type="text" pInputText
+                       [options]="{ prefix: '€', thousands: ',', decimal: '.' }" [(ngModel)]="discount" positivedecimalvalidator id="disc" name="disc" #disc="ngModel">
               </span></p>
+              <p class="input-net-error" *ngIf="disc.errors?.positivedecimalvalidator">Positive only</p>
               <p class="total"><b>Total</b><span>{{total | currency:'EUR'}}</span></p>
               <button pButton type="button" class="ui-button-raised ui-button-rounded" label="ROUND CENTS" (click)="roundCents()"></button>
             </div>
@@ -160,7 +164,7 @@
   <div class="p-grid">
     <div class="p-col">
       <div class="box">
-        <button pButton type="button" class="ui-button-raised ui-button-rounded" label="CREATE INVOICE" (click)="requestInvoice()"></button>
+        <button pButton type="button" [disabled]="!isFormValid" [ngClass]="{'disabled-button': !isFormValid}" class="ui-button-raised ui-button-rounded" label="CREATE INVOICE" (click)="requestInvoice()"></button>
       </div>
     </div>
   </div>

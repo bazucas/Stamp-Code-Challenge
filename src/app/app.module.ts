@@ -4,18 +4,27 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {PanelModule} from 'primeng/panel';
 import {HttpClientModule} from '@angular/common/http';
 import {CommonModule} from '@angular/common';
-
-import { AppComponent } from './app.component';
 import {ButtonModule} from 'primeng/button';
 import {DropdownModule, InputTextModule} from 'primeng/primeng';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import { InvoiceComponent } from './components/invoice/invoice.component';
+import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
+
+import { AppComponent } from './app.component';
+import { InvoiceComponent } from './components/invoice/invoice.component';
+import {CodeValidator} from './directives/code-validator';
+import {DescriptionValidator} from './directives/description-validator';
+import {DiscountValidator} from './directives/discount-validator';
+import {PositivedecimalValidator} from './directives/positive-decimal-validator';
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    InvoiceComponent
+    InvoiceComponent,
+    CodeValidator,
+    DescriptionValidator,
+    DiscountValidator,
+    PositivedecimalValidator
   ],
   imports: [
     BrowserModule,
