@@ -81,7 +81,7 @@
                 <i class="delete-button fas fa-minus-circle" (click)="removeRow(i)" *ngIf="i !== 0 || products.length > 1"></i>
                 <label *ngIf="!showLabels">Code</label>
                 <div class="ui-inputgroup ">
-                  <input type="text" pInputText placeholder="Code" [(ngModel)]="product.code" codevalidator id="code" name="code" #code="ngModel">
+                  <input type="text" pInputText placeholder="Code" [(ngModel)]="product.code" codevalidator id="code" name="code" #code="ngModel" (blur)="calculateNet(product)">
                 </div>
                 <p class="input-error" *ngIf="code.errors?.codevalidator">Alphanumeric only</p>
               </div>
@@ -91,7 +91,7 @@
                 <label *ngIf="!showLabels">Description</label>
                 <div class="ui-inputgroup">
                   <input type="text" pInputText placeholder="Description" [(ngModel)]="product.description" descriptionvalidator
-                         id="description" name="description" #description="ngModel">
+                         id="description" name="description" #description="ngModel" (blur)="calculateNet(product)">
                 </div>
                 <p class="input-error" *ngIf="description.errors?.descriptionvalidator">More than 5 chars</p>
               </div>
@@ -145,7 +145,7 @@
               <p><b>Subtotal</b><span>{{subtotal | currency:'EUR'}}</span></p>
               <p><b>Net discount</b><span>
                 <input currencyMask class="right-set fixin" placeholder="€0.00" type="text" pInputText
-                       [options]="{ prefix: '€', thousands: ',', decimal: '.' }" [(ngModel)]="discount" positivedecimalvalidator id="disc" name="disc" #disc="ngModel">
+                       [options]="{ prefix: '€', thousands: ',', decimal: '.' }" [(ngModel)]="discount" positivedecimalvalidator id="disc" name="disc" #disc="ngModel" (blur)="updateTotals()">
               </span></p>
               <p class="input-net-error" *ngIf="disc.errors?.positivedecimalvalidator">Positive only</p>
               <p class="total"><b>Total</b><span>{{total | currency:'EUR'}}</span></p>

@@ -89,7 +89,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     }
   }
 
-  private requestInvoice() {
+  private requestInvoice(): void  {
     const req: ApiRequest = this.createRequest();
     this.apiServiceSubs = this.apiService.setNewObject<ApiRequest, ApiResponse>('invoices', req).subscribe(
       res => {
@@ -102,16 +102,16 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     );
   }
 
-  private removeRow(index: number) {
+  private removeRow(index: number): void  {
     this.products.splice(index, 1);
     this.updateTotals();
   }
 
-  private addNewRow() {
+  private addNewRow(): void  {
     this.products.push(new Invoice());
   }
 
-  private calculateNet(product) {
+  private calculateNet(product): void  {
     if (product.vat === '') {
       product.vat = this.vatOptions[0].value;
     }
@@ -120,20 +120,20 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     this.updateTotals();
   }
 
-  private updateTotals() {
+  private updateTotals(): void  {
     this.resetSubtotals();
     this.total = (+this.subtotal - +this.discount).toString();
     this.validateForm();
   }
 
-  private roundCents() {
+  private roundCents(): void  {
     this.resetSubtotals();
     const subtotalWithoutCents = Math.floor(+this.subtotal);
     this.total = (subtotalWithoutCents - +this.discount).toString();
     this.validateForm();
   }
 
-  private resetSubtotals() {
+  private resetSubtotals(): void  {
     this.subtotal = '0.00';
     this.total = '0.00';
     this.products.forEach(el => {
@@ -159,21 +159,13 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     };
   }
 
-  private validateForm() {
+  private validateForm(): void {
     this.isFormValid = false;
-    console.log(this.codeInputRef.control.status);
-    console.log(this.descriptionInputRef.control.status);
-    console.log(this.quantityInputRef.control.status);
-    console.log(this.priceInputRef.control.status);
-    console.log(this.discountInputRef.control.status);
-    try {
-      this.isFormValid = this.codeInputRef.control.status &&
-        this.descriptionInputRef.control.status &&
-        this.quantityInputRef.control.status &&
-        this.priceInputRef.control.status &&
-        this.discountInputRef.control.status;
-    } catch (e) {
-      console.log(e.message);
-    }
+    this.isFormValid = this.codeInputRef.control.status === 'VALID' &&
+                       this.descriptionInputRef.control.status === 'VALID' &&
+                       this.quantityInputRef.control.status === 'VALID' &&
+                       this.priceInputRef.control.status === 'VALID' &&
+                       this.discountInputRef.control.status === 'VALID' &&
+                       this.total !== '0';
   }
 }
