@@ -6,29 +6,29 @@ import {
 } from '@angular/forms';
 import { Directive } from '@angular/core';
 @Directive({
-  selector: '[discountvalidator][ngModel]',
+  selector: '[appPositiveDecimalValidator]',
   providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: DiscountValidator,
+      useExisting: PositiveDecimalValidatorDirective,
       multi: true
     }
   ]
 })
-export class DiscountValidator implements Validator {
+export class PositiveDecimalValidatorDirective implements Validator {
   constructor() {
-    this.validator = DiscountValidator.discountValidator();
+    this.validator = PositiveDecimalValidatorDirective.positivedecimalValidator();
   }
   validator: ValidatorFn;
 
-  static discountValidator(): ValidatorFn {
+  static positivedecimalValidator(): ValidatorFn {
     return (c: FormControl) => {
-      const isValid = /^[€]?\d+([.]\d+)?$/.test(c.value);
+      const isValid = c.value === '' ? true : /^[€]?\d+([.]\d+)?$/.test(c.value);
       if (isValid) {
         return null;
       } else {
         return {
-          discountvalidator: {
+          positivedecimalvalidator: {
             valid: false
           }
         };

@@ -11,20 +11,20 @@ import {CurrencyMaskModule} from 'ng2-currency-mask';
 
 import { AppComponent } from './app.component';
 import { InvoiceComponent } from './components/invoice/invoice.component';
-import {CodeValidator} from './directives/code-validator';
-import {DescriptionValidator} from './directives/description-validator';
-import {DiscountValidator} from './directives/discount-validator';
-import {PositivedecimalValidator} from './directives/positive-decimal-validator';
+import { PositiveDecimalValidatorDirective } from './directives/positive-decimal-validator.directive';
+import { CodeValidatorDirective } from './directives/code-validator.directive';
+import { DescriptionValidatorDirective } from './directives/description-validator.directive';
+import { DiscountValidatorDirective } from './directives/discount-validator.directive';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     InvoiceComponent,
-    CodeValidator,
-    DescriptionValidator,
-    DiscountValidator,
-    PositivedecimalValidator
+    PositiveDecimalValidatorDirective,
+    CodeValidatorDirective,
+    DescriptionValidatorDirective,
+    DiscountValidatorDirective
   ],
   imports: [
     BrowserModule,

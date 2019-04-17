@@ -6,18 +6,18 @@ import {
 } from '@angular/forms';
 import { Directive } from '@angular/core';
 @Directive({
-  selector: '[descriptionvalidator][ngModel]',
+  selector: '[appDescriptionValidator]',
   providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: DescriptionValidator,
+      useExisting: DescriptionValidatorDirective,
       multi: true
     }
   ]
 })
-export class DescriptionValidator implements Validator {
+export class DescriptionValidatorDirective implements Validator {
   constructor() {
-    this.validator = DescriptionValidator.descriptionValidator();
+    this.validator = DescriptionValidatorDirective.descriptionValidator();
   }
   validator: ValidatorFn;
 

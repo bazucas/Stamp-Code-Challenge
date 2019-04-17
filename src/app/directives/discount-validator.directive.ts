@@ -6,29 +6,29 @@ import {
 } from '@angular/forms';
 import { Directive } from '@angular/core';
 @Directive({
-  selector: '[codevalidator][ngModel]',
+  selector: '[appDiscountValidator]',
   providers: [
     {
       provide: NG_VALIDATORS,
-      useExisting: CodeValidator,
+      useExisting: DiscountValidatorDirective,
       multi: true
     }
   ]
 })
-export class CodeValidator implements Validator {
+export class DiscountValidatorDirective implements Validator {
   constructor() {
-    this.validator = CodeValidator.codeValidator();
+    this.validator = DiscountValidatorDirective.discountValidator();
   }
   validator: ValidatorFn;
 
-  static codeValidator(): ValidatorFn {
+  static discountValidator(): ValidatorFn {
     return (c: FormControl) => {
-      const isValid = /^[a-zA-Z0-9]*$/.test(c.value);
+      const isValid = /^[€]?\d+([.]\d+)?$/.test(c.value);
       if (isValid) {
         return null;
       } else {
         return {
-          codevalidator: {
+          discountvalidator: {
             valid: false
           }
         };
