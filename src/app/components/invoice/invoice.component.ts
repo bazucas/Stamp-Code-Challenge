@@ -98,7 +98,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
       res => {
         this.invoiceRes = true;
         this.invoiceNo = res.invoiceNumber;
-        this.issuedOn = res.issuedOn;
+        this.issuedOn = new Date(new Date(res.issuedOn)).toLocaleString().slice(0, 10);
         this.responseError = true;
         this.toastr.success('Form submitted', 'Success');
         },
