@@ -13,33 +13,39 @@ import {CurrencyMaskModule} from 'ng2-currency-mask';
 import {of} from 'rxjs';
 import {Invoice} from '../../models/invoice';
 import {ApiRequest} from '../../models/apiRequest';
+import {ToastrModule, ToastrService} from 'ngx-toastr';
+import {HttpClientModule} from '@angular/common/http';
 
 describe('InvoiceComponent', () => {
   let component: InvoiceComponent;
   let fixture: ComponentFixture<InvoiceComponent>;
   let testBedService: ApiService;
+  let toastr: ToastrService;
 
   beforeEach(() => {
 
     TestBed.configureTestingModule({
       declarations: [InvoiceComponent],
       imports: [HttpClientTestingModule,
-                BrowserModule,
-                FormsModule,
-                CommonModule,
-                BrowserAnimationsModule,
-                PanelModule,
-                ButtonModule,
-                InputTextModule,
-                ReactiveFormsModule,
-                DropdownModule,
-                CurrencyMaskModule
+        BrowserModule,
+        FormsModule,
+        CommonModule,
+        BrowserAnimationsModule,
+        PanelModule,
+        HttpClientModule,
+        ButtonModule,
+        InputTextModule,
+        ReactiveFormsModule,
+        DropdownModule,
+        CurrencyMaskModule,
+        ToastrModule.forRoot()
       ],
-      providers: [ApiService]
+      providers: [ApiService, ToastrService]
     });
     fixture = TestBed.createComponent(InvoiceComponent);
-    component = fixture.componentInstance;
     testBedService = TestBed.get(ApiService);
+    toastr = TestBed.get(ToastrService);
+    component = fixture.componentInstance;
   });
 
   it('should create', () => {

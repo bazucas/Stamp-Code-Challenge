@@ -11,7 +11,7 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "~7.2.0",
+    "@angular/animations": "^7.2.13",
     "@angular/cdk": "^7.3.7",
     "@angular/common": "~7.2.0",
     "@angular/compiler": "~7.2.0",
@@ -25,6 +25,7 @@
     "jasmine-expect": "^4.0.1",
     "lodash": "^4.17.11",
     "ng2-currency-mask": "^5.3.1",
+    "ngx-toastr": "^10.0.2",
     "node": "^11.12.0",
     "primeflex": "^1.0.0-rc.1",
     "primeicons": "^1.0.0",

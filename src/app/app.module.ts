@@ -15,7 +15,7 @@ import { PositiveDecimalValidatorDirective } from './directives/positive-decimal
 import { CodeValidatorDirective } from './directives/code-validator.directive';
 import { DescriptionValidatorDirective } from './directives/description-validator.directive';
 import { DiscountValidatorDirective } from './directives/discount-validator.directive';
-import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -37,7 +37,8 @@ import {HttpClientTestingModule} from '@angular/common/http/testing';
     InputTextModule,
     ReactiveFormsModule,
     DropdownModule,
-    CurrencyMaskModule
+    CurrencyMaskModule,
+    ToastrModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

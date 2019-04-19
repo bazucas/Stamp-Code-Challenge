@@ -9,6 +9,7 @@ describe('ApiService', () => {
 
   let service: ApiService;
   let httpMock: HttpTestingController;
+  let statics: StaticService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -16,6 +17,7 @@ describe('ApiService', () => {
       providers: [ApiService, StaticService]
     });
     service = TestBed.get(ApiService);
+    statics = TestBed.get(StaticService);
     httpMock = TestBed.get(HttpTestingController);
   });
 
@@ -31,7 +33,7 @@ describe('ApiService', () => {
     service.getAllObjects('invoice').subscribe((data: any) => {
       expect(data).toBe('something');
     });
-    const request = httpMock.expectOne('https://*************.azurewebsites.net/api/invoice/');
+    const request = httpMock.expectOne(statics.endpoint + /invoice/);
     expect(request.request.method).toBe('GET');
   });
 
@@ -39,7 +41,7 @@ describe('ApiService', () => {
     service.getObjectById('invoice', 1).subscribe((data: any) => {
       expect(data).toBe('something');
     });
-    const request = httpMock.expectOne('https://*************.azurewebsites.net/api/invoice/1');
+    const request = httpMock.expectOne(statics.endpoint + /invoice/ + '1');
     expect(request.request.method).toBe('GET');
   });
 
@@ -67,7 +69,7 @@ describe('ApiService', () => {
       expect(res.items.length).toBe(1);
     });
 
-    const request = httpMock.expectOne('https://*************.azurewebsites.net/api/invoice/');
+    const request = httpMock.expectOne(statics.endpoint + /invoice/);
     expect(request.request.method).toBe('POST');
     request.flush(dummyResponse);
   });
@@ -76,7 +78,7 @@ describe('ApiService', () => {
     service.updateObject('invoice', 1, {}).subscribe((data: any) => {
       expect(data).toBe('something');
     });
-    const request = httpMock.expectOne('https://*************.azurewebsites.net/api/invoice/1');
+    const request = httpMock.expectOne(statics.endpoint + /invoice/ + '1');
     expect(request.request.method).toBe('PUT');
   });
 
@@ -84,7 +86,7 @@ describe('ApiService', () => {
     service.updateProperty('invoice', 1, {}).subscribe((data: any) => {
       expect(data).toBe('something');
     });
-    const request = httpMock.expectOne('https://*************.azurewebsites.net/api/invoice/1');
+    const request = httpMock.expectOne(statics.endpoint + /invoice/ + '1');
     expect(request.request.method).toBe('PATCH');
   });
 
@@ -92,7 +94,7 @@ describe('ApiService', () => {
     service.deleteObject('invoice', 1).subscribe((data: any) => {
       expect(data).toBe('something');
     });
-    const request = httpMock.expectOne('https://*************.azurewebsites.net/api/invoice/1');
+    const request = httpMock.expectOne(statics.endpoint + /invoice/ + '1');
     expect(request.request.method).toBe('DELETE');
   });
 });

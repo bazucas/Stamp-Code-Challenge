@@ -7,6 +7,7 @@ import {Invoice} from '../../models/invoice';
 import {Subscription} from 'rxjs';
 import {ApiRequest, Item} from '../../models/apiRequest';
 import {ApiResponse} from '../../models/apiResponse';
+import {ToastrService} from 'ngx-toastr';
 
 @Component({
   selector: 'app-invoice',
@@ -42,6 +43,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   @ViewChild('disc') discountInputRef;
 
   isFormValid = false;
+  responseError = false;
   apiServiceSubs: Subscription;
   innerWidth = 0;
   showLabels = true;
@@ -76,7 +78,8 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     address: 'My own street, 10'
   };
 
-  constructor(private apiService: ApiService) { }
+  constructor(private apiService: ApiService,
+              private toastr: ToastrService) { }
 
   ngOnInit() {
     this.innerWidth = window.innerWidth;
@@ -96,17 +99,25 @@ export class InvoiceComponent implements OnInit, OnDestroy {
         this.invoiceRes = true;
         this.invoiceNo = res.invoiceNumber;
         this.issuedOn = res.issuedOn;
+        this.responseError = true;
+        this.toastr.success('Form submitted', 'Success');
         },
-      error => {},
+      error => this.toastr.error('Error - ' + error.error.message, 'Error'),
       () => {}
     );
   }
 
   addNewRow(): void  {
+    if (this.responseError) {
+      return ;
+    }
     this.products.push(new Invoice());
   }
 
   removeRow(index: number): void  {
+    if (this.responseError) {
+      return ;
+    }
     this.products.splice(index, 1);
     this.updateTotals();
   }
@@ -127,6 +138,9 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   }
 
   roundCents(): void  {
+    if (this.responseError) {
+      return ;
+    }
     this.resetSubtotals();
     const subtotalWithoutCents = Math.floor(+this.subtotal);
     this.total = (subtotalWithoutCents - +this.discount).toString();
