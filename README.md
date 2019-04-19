@@ -3,7 +3,6 @@
 Frontend developer code challenge.
 
 ## Demo
-Coming soon...
 
 [http://stamp.luisinacio.co.uk](http://stamp.luisinacio.co.uk/)
 
