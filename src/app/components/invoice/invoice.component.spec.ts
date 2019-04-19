@@ -11,6 +11,8 @@ import {ButtonModule} from 'primeng/button';
 import {DropdownModule, InputTextModule} from 'primeng/primeng';
 import {CurrencyMaskModule} from 'ng2-currency-mask';
 import {of} from 'rxjs';
+import {Invoice} from '../../models/invoice';
+import {ApiRequest} from '../../models/apiRequest';
 
 describe('InvoiceComponent', () => {
   let component: InvoiceComponent;
@@ -72,4 +74,83 @@ describe('InvoiceComponent', () => {
     expect(component.issuedOn).toBe(response.issuedOn);
     expect(component.invoiceRes).toBeTruthy();
     });
+
+  it('should add an Invoice object to the products array', () => {
+    component.products = [];
+    component.addNewRow();
+    expect(component.products.length).toBe(1);
+    expect(component.products[0] instanceof Invoice).toBeTruthy();
   });
+
+  it('should remove object from the products array and validate form', () => {
+    const invoice: Invoice = {
+      vat: '10',
+      price: '10',
+      quantity: '10',
+      description: 'tests',
+      code: 'tests',
+      net: '10'
+    };
+    const inputRef = {
+      control: {
+        status: 'VALID'
+      }
+    };
+    component.codeInputRef = inputRef;
+    component.descriptionInputRef = inputRef;
+    component.quantityInputRef = inputRef;
+    component.priceInputRef = inputRef;
+    component.discountInputRef = inputRef;
+    component.discount = '10.0';
+    component.products = [invoice, invoice, invoice];
+    expect(component.products.length).toBe(3);
+    component.removeRow(0);
+    expect(component.products.length).toBe(2);
+    expect(component.total).toBe('10');
+    expect(component.isFormValid).toBeTruthy();
+  });
+
+  it('should calculate Net value over default vat value', () => {
+    const invoice: Invoice = {
+      vat: '10',
+      price: '10',
+      quantity: '10',
+      description: 'tests',
+      code: 'tests',
+      net: '11.5'
+    };
+    const inputRef = {
+      control: {
+        status: 'VALID'
+      }
+    };
+
+    component.codeInputRef = inputRef;
+    component.descriptionInputRef = inputRef;
+    component.quantityInputRef = inputRef;
+    component.priceInputRef = inputRef;
+    component.discountInputRef = inputRef;
+    component.discountInputRef = inputRef.control.status = 'INVALID';
+
+    component.products = [invoice, invoice, invoice];
+    component.roundCents();
+    expect(component.isFormValid).toBeFalsy();
+    expect(component.subtotal).toBe('34.5');
+    expect(component.total).toBe( (Math.floor(+component.subtotal) - +component.discount).toString());
+  });
+
+  it('should create an ApiRequest object', () => {
+    const invoice: Invoice = {
+      vat: '10',
+      price: '10',
+      quantity: '10',
+      description: 'tests',
+      code: 'tests',
+      net: '11.5'
+    };
+    component.products = [invoice, invoice, invoice];
+
+    const result: ApiRequest = component.createRequest();
+    expect(result.items.length).toBe(3);
+  });
+});

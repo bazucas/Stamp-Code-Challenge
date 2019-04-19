@@ -41,21 +41,21 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   @ViewChild('price') priceInputRef;
   @ViewChild('disc') discountInputRef;
 
-  private isFormValid = false;
+  isFormValid = false;
   apiServiceSubs: Subscription;
   innerWidth = 0;
   showLabels = true;
-  private readonly vatOptions: {label: string, value: string}[] = [
+  vatOptions: {label: string, value: string}[] = [
     {label: '22%', value: '22'},
     {label: '10%', value: '10'},
     {label: '5%', value: '5'},
     {label: '4%', value: '4'}
   ];
 
-  private products: Invoice[] = [new Invoice()];
-  private subtotal = '0.00';
-  private total = '0.00';
-  private discount = '';
+  products: Invoice[] = [new Invoice()];
+  subtotal = '0.00';
+  total = '0.00';
+  discount = '';
 
   invoiceNo = 'EF123654';
   issuedOn = '22/03/2019';
@@ -89,7 +89,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     }
   }
 
-  requestInvoice(): void  {
+   requestInvoice(): void  {
     const req: ApiRequest = this.createRequest();
     this.apiServiceSubs = this.apiService.setNewObject<ApiRequest, ApiResponse>('invoices', req).subscribe(
       res => {
@@ -102,16 +102,16 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     );
   }
 
-  private removeRow(index: number): void  {
+  addNewRow(): void  {
+    this.products.push(new Invoice());
+  }
+
+  removeRow(index: number): void  {
     this.products.splice(index, 1);
     this.updateTotals();
   }
 
-  private addNewRow(): void  {
-    this.products.push(new Invoice());
-  }
-
-  private calculateNet(product): void  {
+  calculateNet(product): void  {
     if (product.vat === '') {
       product.vat = this.vatOptions[0].value;
     }
@@ -120,20 +120,20 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     this.updateTotals();
   }
 
-  private updateTotals(): void  {
+  updateTotals(): void  {
     this.resetSubtotals();
     this.total = (+this.subtotal - +this.discount).toString();
     this.validateForm();
   }
 
-  private roundCents(): void  {
+  roundCents(): void  {
     this.resetSubtotals();
     const subtotalWithoutCents = Math.floor(+this.subtotal);
     this.total = (subtotalWithoutCents - +this.discount).toString();
     this.validateForm();
   }
 
-  private resetSubtotals(): void  {
+  resetSubtotals(): void  {
     this.subtotal = '0.00';
     this.total = '0.00';
     this.products.forEach(el => {
@@ -141,7 +141,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     });
   }
 
-  private createRequest(): ApiRequest {
+  createRequest(): ApiRequest {
     const itemCollection: Item[] = [];
     this.products.forEach(prod => {
       const item: Item = {
@@ -159,7 +159,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     };
   }
 
-  private validateForm(): void {
+  validateForm(): void {
     this.isFormValid = false;
     this.isFormValid = this.codeInputRef.control.status === 'VALID' &&
                        this.descriptionInputRef.control.status === 'VALID' &&
