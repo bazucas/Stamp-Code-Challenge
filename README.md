@@ -41,7 +41,7 @@ cents from the subtotal applying the appropriate discount.
 ### Form submission
 
 To create an invoice you will have to make a POST to
-https://**************.azurewebsites.net/api/invoices.
+https://**************.azurewebsites.net/api/invoices. (update with correct URL)
 Request body:
 * Use Content-Type = application/json.
 
@@ -139,10 +139,16 @@ npm install
 ``` 
 Update the API path, on /src/static/paths.json
 
-Open another terminal windows and run the Angular application.
+Open terminal window and run the Angular application.
 
 ```bash
 npm start
+```
+
+To run the unit tests, open terminal window and run the tests.
+
+```bash
+npm run test
 ```
 
 ## Architecture
@@ -156,6 +162,8 @@ npm start
 * Template form directive validation.
 * API post verb method calls.
 * Generic API http verb methods.
+* Toastr notifications.
+* Unit tests.
 
 ### Boilerplate code used
 
