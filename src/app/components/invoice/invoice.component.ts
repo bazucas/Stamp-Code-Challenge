@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit, TemplateRef, ViewChild, ViewEncapsulation} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Customer} from '../../models/customer';
 import {Company} from '../../models/company';
@@ -42,9 +42,9 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   @ViewChild('disc') discountInputRef;
 
   private isFormValid = false;
-  private apiServiceSubs: Subscription;
-  private innerWidth = 0;
-  private showLabels = true;
+  apiServiceSubs: Subscription;
+  innerWidth = 0;
+  showLabels = true;
   private readonly vatOptions: {label: string, value: string}[] = [
     {label: '22%', value: '22'},
     {label: '10%', value: '10'},
@@ -57,9 +57,9 @@ export class InvoiceComponent implements OnInit, OnDestroy {
   private total = '0.00';
   private discount = '';
 
-  private invoiceNo = 'EF123654';
-  private issuedOn = '22/03/2019';
-  private invoiceRes = false;
+  invoiceNo = 'EF123654';
+  issuedOn = '22/03/2019';
+  invoiceRes = false;
 
   private readonly customer: Customer = {
     country: 'Portugal',
@@ -89,7 +89,7 @@ export class InvoiceComponent implements OnInit, OnDestroy {
     }
   }
 
-  private requestInvoice(): void  {
+  requestInvoice(): void  {
     const req: ApiRequest = this.createRequest();
     this.apiServiceSubs = this.apiService.setNewObject<ApiRequest, ApiResponse>('invoices', req).subscribe(
       res => {
@@ -166,6 +166,6 @@ export class InvoiceComponent implements OnInit, OnDestroy {
                        this.quantityInputRef.control.status === 'VALID' &&
                        this.priceInputRef.control.status === 'VALID' &&
                        this.discountInputRef.control.status === 'VALID' &&
-                       this.total !== '0';
+                       +this.total > 0;
   }
 }
